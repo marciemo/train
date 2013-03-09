@@ -10,6 +10,7 @@ class Line
 
   def save
     @id = DB.exec("INSERT INTO lines (name) VALUES ('#{@name}') RETURNING id;").first['id']
+    self
   end
 
   def view_stations 
@@ -20,8 +21,17 @@ class Line
     DB.exec("SELECT * FROM lines;").inject([]) {|lines, line_hash| lines << Line.new(line_hash)}
   end
 
-  # def self.search
+  def self.fetch_by_id(id)
+    line_hash = DB.exec("SELECT * FROM lines WHERE id = #{id}").first
+    Line.new(line_hash)
+  end
 
-  # end
+  def ==(other)
+    if other.class != self.class
+      false
+    else
+      self.name == other.name
+    end
+  end
 
 end

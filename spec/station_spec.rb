@@ -9,13 +9,14 @@ describe Station do
     end
   end
 
-  # context '#add' do 
-
-  # end
-
-  # context '#view_lines' do
-
-  # end
+  context '#view_lines' do
+    it 'returns an array of the lines that go through the requested station' do
+      station = Station.new({'name' => 'Roosevelt'}).save
+      lines = ['Green', 'Blue', 'Red'].inject([]) { |lines, name| lines << Line.new({'name' => name}).save }
+      lines.each { |line| Connection.new(station,line).save }
+      station.view_lines.should =~ lines      
+    end
+  end
 
   context '.all' do
     it 'should start out empty' do
@@ -30,8 +31,12 @@ describe Station do
 
   end
 
-  # context '.search' do
-
-  # end
+  context '#fetch_by_id' do
+    it 'returns the line record for the given id#' do
+      station = Station.new({'name' => 'Embarcadero'})
+      station.save
+      Station.fetch_by_id(station.id).name.should eq 'Embarcadero'
+    end
+  end
 
 end

@@ -1,6 +1,6 @@
 require 'pg'
 require 'rspec'
-require './lib/stop'
+require './lib/connection'
 require './lib/line'
 require './lib/station'
 
@@ -94,17 +94,18 @@ def view_stations
 end
 
 def view_lines
-
-end
-
-def search #returns the object to the class
-
+  all_stations = Station.all
+  all_stations.each_with_index { |station, i| puts "   #{i+1}. #{station.name}"}
+  puts "Enter the the number of the station you wish to view:"
+  number = gets.chomp.to_i
+  selected_station = all_stations[number-1]
+  puts "Here are the lines that pass through #{selected_station.name} Station:"
+  selected_station.view_lines.each { |line| puts "   #{line.name}"}
 end
 
 def invalid
  puts "Invalid entry."
 end
-
 
 def exit
   puts "Exiting."

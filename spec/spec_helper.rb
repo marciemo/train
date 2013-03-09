@@ -1,6 +1,6 @@
 require 'pg'
 require 'rspec'
-require 'stop'
+require 'connection'
 require 'line'
 require 'station'
 
